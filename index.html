@@ -21,9 +21,33 @@
       href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <!-- SPA fallback restore: reverses the redirect encoded by public/404.html
+         (see spa-github-pages technique) so React Router sees the real path
+         the user actually requested, before the app mounts. -->
+    <script>
+      (function () {
+        var l = window.location;
+        if (l.search[1] === "p" && l.search[1] === "p") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            });
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) +
+              (decoded[0] || "").slice(2) +
+              (decoded[1] ? "?" + decoded[1].slice(2) : "") +
+              l.hash
+          );
+        }
+      })();
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
